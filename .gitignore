@@ -1,0 +1,26 @@
+# Виртуальное окружение
+venv/
+env/
+.venv/
+
+# Файлы IDE
+.idea/
+*.iml
+.vscode/
+
+# Кэш Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# База данных (если не хотите хранить в репозитории)
+# data/*.db
+
+# Конфигурация с токеном
+config.py
+
+# Дистрибутивы
+dist/
+build/
+*.egg-info/
