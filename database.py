@@ -3,6 +3,7 @@ from datetime import datetime
 
 
 def init_db():
+    """Инициализация базы данных"""
     conn = sqlite3.connect('data/warehouse.db')
     cursor = conn.cursor()
 
@@ -70,11 +71,13 @@ def init_db():
     cursor.execute("SELECT COUNT(*) FROM products")
     if cursor.fetchone()[0] == 0:
         test_products = [
-            ('Кроссовки Nike Air Max', 'Обувь', 25, 8500),
-            ('Кроссовки Adidas Ultraboost', 'Обувь', 15, 12000),
-            ('Футболка Nike', 'Одежда', 50, 2500),
-            ('Джинсы Levi\'s', 'Одежда', 30, 4500),
-            ('Рюкзак', 'Аксессуары', 20, 3500)
+            ('Подшипники шариковые', 'Метизы', 500, 150),
+            ('Болты М10х50', 'Крепеж', 1000, 25),
+            ('Электроды сварочные', 'Расходные материалы', 300, 80),
+            ('Масло индустриальное', 'Смазочные материалы', 200, 450),
+            ('Перчатки рабочие', 'СИЗ', 1000, 35),
+            ('Кабель ВВГ 3х2.5', 'Электротовары', 500, 120),
+            ('Краска акриловая', 'Лакокрасочные материалы', 150, 300)
         ]
         cursor.executemany(
             "INSERT INTO products (name, category, quantity, price) VALUES (?, ?, ?, ?)",
@@ -130,7 +133,7 @@ def create_order(user_id, user_name, product_id, quantity):
     conn.commit()
     order_id = cursor.lastrowid
     conn.close()
-    return True, f"Заявка №{order_id} успешно создана"
+    return True, f"Заявка N{order_id} успешно создана"
 
 
 def get_order_status(user_id):
@@ -149,29 +152,16 @@ def get_order_status(user_id):
     return orders
 
 
-def update_order_status(order_id, status):
-    """Обновить статус заявки"""
-    conn = sqlite3.connect('data/warehouse.db')
-    cursor = conn.cursor()
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    cursor.execute(
-        "UPDATE orders SET status = ?, updated_at = ? WHERE id = ?",
-        (status, now, order_id)
-    )
-    conn.commit()
-    conn.close()
-
-
 def get_all_orders():
     """Получить все заявки для дашборда"""
     conn = sqlite3.connect('data/warehouse.db')
     cursor = conn.cursor()
     cursor.execute('''
-        SELECT o.id, o.user_name, p.name, o.quantity, o.status, o.created_at
-        FROM orders o
-        JOIN products p ON o.product_id = p.id
-        ORDER BY o.created_at DESC
-    ''')
+                   SELECT o.id, o.user_name, p.name, o.quantity, o.status, o.created_at
+                   FROM orders o
+                            JOIN products p ON o.product_id = p.id
+                   ORDER BY o.created_at DESC
+                   ''')
     orders = cursor.fetchall()
     conn.close()
     return orders

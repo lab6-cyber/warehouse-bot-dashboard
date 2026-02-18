@@ -33,9 +33,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         f"Привет, {user.first_name}!\n\n"
         "Я бот для управления складскими заявками. Я помогу вам:\n"
-        "• Просматривать список доступных товаров\n"
-        "• Создавать заявки на отгрузку\n"
-        "• Отслеживать статус заявок\n\n"
+        "Просматривать список доступных товаров на складе\n"
+        "Создавать заявки на отгрузку\n"
+        "Отслеживать статус заявок\n\n"
         "Выберите действие на клавиатуре ниже:",
         reply_markup=get_main_keyboard()
     )
@@ -61,12 +61,12 @@ async def products(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Товары не найдены")
         return
 
-    message = "Доступные товары:\n\n"
+    message = "Доступные товары на складе:\n\n"
     for p in products_list:
-        message += f"🔹 {p[1]}\n"
-        message += f"   Категория: {p[2]}\n"
-        message += f"   В наличии: {p[3]} шт.\n"
-        message += f"   Цена: {p[4]} руб.\n\n"
+        message += f"{p[1]}\n"
+        message += f"Категория: {p[2]}\n"
+        message += f"В наличии: {p[3]} шт.\n"
+        message += f"Цена: {p[4]} руб.\n\n"
 
     await update.message.reply_text(message)
 
@@ -169,11 +169,11 @@ async def status(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     message = "Ваши заявки:\n\n"
     for o in orders:
-        message += f"   Заявка №{o[0]}\n"
-        message += f"   Товар: {o[1]}\n"
-        message += f"   Количество: {o[2]} шт.\n"
-        message += f"   Статус: {o[3]}\n"
-        message += f"   Дата: {o[4]}\n\n"
+        message += f"Заявка N{o[0]}\n"
+        message += f"Товар: {o[1]}\n"
+        message += f"Количество: {o[2]} шт.\n"
+        message += f"Статус: {o[3]}\n"
+        message += f"Дата: {o[4]}\n\n"
 
     await update.message.reply_text(message)
 

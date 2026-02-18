@@ -88,7 +88,7 @@ def update_table(n):
 def run_dashboard():
     """Запуск дашборда"""
     print(f"Дашборд запущен по адресу: http://127.0.0.1:8050")
-    app.run(debug=True, port=8050)  # Изменено с run_server на run
+    app.run(debug=True, port=8050)
 
 
 if __name__ == '__main__':
